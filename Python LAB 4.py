@@ -1,35 +1,50 @@
 # WAP to represent Graph using Adjaceny Matrix:
 
-class Graph(object):	
-	def _init_(self, size):
-		self.adjMatrix = []
-		for i in range(size):
-			self.adjMatrix.append([0 for i in range(size)])
-		self.size = size
-	def add_edge(self, v1, v2):
-		if v1 == v2:
-			print("Same vertex %d and %d" % (v1, v2))
-		self.adjMatrix[v1][v2] = 1
-		self.adjMatrix[v2][v1] = 1
-	def _len_(self):
-		return self.size
-	def print_matrix(self):
-		for i in range(self.V):
-			print("Adjacency list of vertex {}\n head".format(i), end="")
-			temp = self.graph[i]
-			while temp:
-				print(" -> {}".format(temp.vertex), end="")
-				temp = temp.next
-			print(" \n")
+class Graph(object):
+
+    # Initialize the matrix
+    def __init__(self, size):
+        self.adjMatrix = []
+        for i in range(size):
+            self.adjMatrix.append([0 for i in range(size)])
+        self.size = size
+
+    # Add edges
+    def add_edge(self, v1, v2):
+        if v1 == v2:
+            print("Same vertex %d and %d" % (v1, v2))
+        self.adjMatrix[v1][v2] = 1
+        self.adjMatrix[v2][v1] = 1
+
+    # Remove edges
+    def remove_edge(self, v1, v2):
+        if self.adjMatrix[v1][v2] == 0:
+            print("No edge between %d and %d" % (v1, v2))
+            return
+        self.adjMatrix[v1][v2] = 0
+        self.adjMatrix[v2][v1] = 0
+
+    def __len__(self):
+        return self.size
+
+    # Print the matrix
+    def print_matrix(self):
+        for row in self.adjMatrix:
+            for val in row:
+                print('{:4}'.format(val)),
+            print
+
+
 def main():
-	n=int(input("Enter The Number of Nodes"))	
-	g = Graph(n)
-	for i in range (n):
-		x=int(input("source "))
-		y=int(input("destination"))
-		g.add_edge(x, y)
-	g.print_matrix()
-	
-	
-if _name_ == '_main_':
-	main()
+    g = Graph(5)
+    g.add_edge(0, 1)
+    g.add_edge(0, 2)
+    g.add_edge(1, 2)
+    g.add_edge(2, 0)
+    g.add_edge(2, 3)
+
+    g.print_matrix()
+
+
+if __name__ == '__main__':
+    main()

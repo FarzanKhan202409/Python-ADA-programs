@@ -8,5 +8,5 @@ class Solution:
             return 'false'  
   
 obj = Solution()                 
-list1 = [1, 2, 3, 1]  
+list1 = [4,5,6,4]  
 print(obj.solution(list1)) 

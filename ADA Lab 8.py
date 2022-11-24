@@ -1,59 +1,37 @@
-class Graph():
-    def __init__(self, vertices):
-        self.graph = [[0 for column in range(vertices)]
-                            for row in range(vertices)]
-        self.V = vertices
-    def isSafe(self, v, pos, path):
-        if self.graph[ path[pos-1] ][v] == 0:
-            return False
- 
-        # Check if current vertex not already in path
-        for vertex in path:
-            if vertex == v:
+def isSafe(graph, color):
+    for i in range(4):
+        for j in range(i + 1, 4):
+            if (graph[i][j] and color[j] == color[i]):
                 return False
+    return True
+def graphColoring(graph, m, i, color):
+    if (i == 4):
+        if (isSafe(graph, color)):
  
-        return True
-    def hamCycleUtil(self, path, pos):
-        if pos == self.V:
-            if self.graph[ path[pos-1] ][ path[0] ] == 1:
-                return True
-            else:
-                return False
-        for v in range(1,self.V):
- 
-            if self.isSafe(v, pos, path) == True:
- 
-                path[pos] = v
- 
-                if self.hamCycleUtil(path, pos+1) == True:
-                    return True
-                path[pos] = -1
- 
+            # Print the solution
+            printSolution(color)
+            return True
         return False
+    for j in range(1, m + 1):
+        color[i] = j
+        if (graphColoring(graph, m, i + 1, color)):
+            return True
+        color[i] = 0
+    return False
+def printSolution(color):
+    print("Solution Exists:" " Following are the assigned colors ")
+    for i in range(4):
+        print(color[i], end=" ")
  
-    def hamCycle(self):
-        path = [-1] * self.V
-        path[0] = 0
- 
-        if self.hamCycleUtil(path,1) == False:
-            print ("Solution does not exist\n")
-            return False
-        self.printSolution(path)
-        return True
- 
-    def printSolution(self, path):
-        print ("Solution Exists: Following",
-                 "is one Hamiltonian Cycle")
-        for vertex in path:
-            print (vertex, end = " ")
-        print (path[0], "\n")
-g1 = Graph(5)
-g1.graph = [ [0, 1, 0, 1, 0], [1, 0, 1, 1, 1],
-            [0, 1, 0, 0, 1,],[1, 1, 0, 0, 1],
-            [0, 1, 1, 1, 0], ]
-g1.hamCycle();
-g2 = Graph(5)
-g2.graph = [ [0, 1, 0, 1, 0], [1, 0, 1, 1, 1],
-        [0, 1, 0, 0, 1,], [1, 1, 0, 0, 0],
-        [0, 1, 1, 0, 0], ]
-g2.hamCycle();
+# Driver code
+if __name__ == '__main__':
+    graph = [
+        [0, 1, 1, 1],
+        [1, 0, 1, 0],
+        [1, 1, 0, 1],
+        [1, 0, 1, 0],
+    ]
+    m = 3 
+    color = [0 for i in range(4)]
+    if (not graphColoring(graph, m, 0, color)):
+        print("Solution does not exist")
